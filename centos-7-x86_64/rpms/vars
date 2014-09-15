@@ -63,7 +63,7 @@ export KEY_EXPIRE=3650
 # Don't leave any of these fields blank.
 export KEY_COUNTRY="US"
 export KEY_PROVINCE="GA"
-export KEY_CITY="Atlantao"
+export KEY_CITY="Atlanta"
 export KEY_ORG="WiKID Systems Inc"
 export KEY_EMAIL="me@myhost.mydomain"
 export KEY_OU="MyOrganizationalUnit"

@@ -5,3 +5,4 @@ packer_cache/
 *.box
 *.ovf
 *.vmdk
+centos7-openvpn-keys-disk1.vmdk

@@ -56,7 +56,14 @@
   "disk_size": 40000,
   "headless": false,
   "http_directory": "./http"
-   }
+   },
+   {
+    "type": "digitalocean",
+    "api_key": "Your API v1 key",
+    "client_id": "Your api v1 client ID",
+    "region_id": 3,
+    "image": "centos-7-0-x64"
+  }
   ],
   "provisioners": [
      { 

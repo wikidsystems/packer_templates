@@ -1,0 +1,89 @@
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": ""
+  },
+  "builders":[
+  {
+   "type": "amazon-ebs",
+    "access_key": "{{user `aws_access_key`}}",
+    "secret_key": "{{user `aws_secret_key`}}",
+    "region": "us-east-1",
+    "source_ami": "ami-62af5f0a",
+    "instance_type": "t1.micro",
+    "ssh_username": "root",
+    "ami_name": "OpenVPN, pam-radius from WIKID ",
+    "ssh_timeout" : "5m",
+    "ami_description": "Openvpn community on Centos from WiKID's packer script."
+  },
+{
+  "type": "vmware-iso",
+  "vm_name": "centos7-openvpn",
+  "iso_url": "/home/nowen/Downloads/CentOS-7.0-1406-x86_64-Minimal.iso",
+  "iso_checksum": "e3afe3f1121d69c40cc23f0bafa05e5d",
+  "iso_checksum_type": "md5",
+  "ssh_username": "root",
+  "ssh_password": "wikid",
+  "ssh_wait_timeout": "10m",
+  "guest_os_type": "centos-64",
+  "tools_upload_flavor": "linux",
+  "http_directory": "http",
+  "shutdown_command": "shutdown -P now",
+  "boot_command": [
+                "<esc>",
+                "<wait>linux ks=http://192.168.205.1:{{ .HTTPPort }}/anaconda-ks.cfg<enter>"
+            ],
+  "boot_wait": "25s",
+  "disk_size": 40000,
+  "headless": true
+},
+  {
+  "type": "virtualbox-iso",
+  "vm_name": "centos7-openvpn-keys",
+  "guest_os_type": "RedHat_64",
+  "iso_url": "/home/nowen/Downloads/CentOS-7.0-1406-x86_64-DVD/CentOS-7.0-1406-x86_64-DVD.iso",
+  "iso_checksum": "713ea7847adcdd1700e92429f212721a",
+  "iso_checksum_type": "md5",
+  "ssh_username": "root",
+  "ssh_password": "wikid",
+  "ssh_wait_timeout": "20m",
+  "shutdown_command": "echo 'packer' | sudo -S shutdown -P now",
+  "boot_command": [
+                "<esc>",
+                "<wait>linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/anaconda-ks.cfg<enter>"
+            ],
+  "boot_wait": "5s",
+  "disk_size": 40000,
+  "headless": false,
+  "http_directory": "./http"
+   },
+   {
+    "type": "digitalocean",
+    "api_key": "Your API v1 key",
+    "client_id": "Your api v1 client ID",
+    "region_id": 3,
+    "image": "centos-7-0-x64"
+  }
+  ],
+  "provisioners": [
+     { 
+     "type": "file",
+     "source": "rpms",
+     "destination": "/root"
+     },
+     {
+     "script":  "provisioners/openvpn.sh",
+     "type": "shell"
+     },
+     {
+     "type": "shell",
+     "inline": "service iptables stop",
+     "only": ["amazon-ebs"]
+     },
+     {
+     "type": "shell",
+     "inline": "chkconfig iptables off",
+      "only": ["amazon-ebs"]       
+     }
+   ]
+}

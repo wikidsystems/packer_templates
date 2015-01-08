@@ -12,9 +12,9 @@
     "source_ami": "ami-62af5f0a",
     "instance_type": "t1.micro",
     "ssh_username": "root",
-    "ami_name": "OpenVPN, pam-radius from WIKID ",
+    "ami_name": "OpenVPN and WiKID",
     "ssh_timeout" : "5m",
-    "ami_description": "Openvpn community on Centos from WiKID's packer script."
+    "ami_description": "Openvpn community on Centos with WiKID for two-factor auth."
   },
 {
   "type": "vmware-iso",
@@ -73,6 +73,10 @@
      },
      {
      "script":  "provisioners/openvpn.sh",
+     "type": "shell"
+     },
+     {
+     "script":  "provisioners/wikid-appliance.sh",
      "type": "shell"
      },
      {

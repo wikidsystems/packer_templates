@@ -2,7 +2,7 @@ yum -y update
 cp  /root/rpms/pam_radius_auth.so /usr/lib64/security/
 mkdir /etc/raddb/
 cp /root/rpms/server /etc/raddb/	
-cp /root/rpms/sshd /etc/pam.d/
+cp /root/rpms/openvpn /etc/pam.d/
 wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-1.noarch.rpm
 rpm -Uvh /root/rpms/epel-release-7-1.noarch.rpm
 yum -y install openvpn easy-rsa
@@ -30,6 +30,8 @@ source ./vars
 
 ./build-key --batch client
 
+./build-key --batch client2
+
 cp /etc/openvpn/easy-rsa/keys/dh2048.pem /etc/openvpn
 rm /etc/openvpn/ca.crt
 cp /etc/openvpn/easy-rsa/keys/ca.crt /etc/openvpn
@@ -38,10 +40,14 @@ cp /etc/openvpn/easy-rsa/keys/server.crt /etc/openvpn
 rm /etc/openvpn/server.key
 cp /etc/openvpn/easy-rsa/keys/server.key /etc/openvpn
 
+# commented for centos 6 on amazon
+#firewall-cmd --add-service openvpn
+#firewall-cmd --permanent --add-service openvpn
+#firewall-cmd --add-masquerade
+#firewall-cmd --permanent --add-masquerade
+#systemctl start openvpn@server.service
+#systemctl enable openvpn@server.service
 
-firewall-cmd --add-service openvpn
-firewall-cmd --permanent --add-service openvpn
-firewall-cmd --add-masquerade
-firewall-cmd --permanent --add-masquerade
-systemctl start openvpn@server.service
-systemctl enable openvpn@server.service
+service openvpn start
+chkconfig openvpn on
+

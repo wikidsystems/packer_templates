@@ -65,8 +65,8 @@ export KEY_COUNTRY="US"
 export KEY_PROVINCE="GA"
 export KEY_CITY="Atlanta"
 export KEY_ORG="WiKID Systems Inc"
-export KEY_EMAIL="me@myhost.mydomain"
-export KEY_OU="MyOrganizationalUnit"
+export KEY_EMAIL="me@wikidsystems.com"
+export KEY_OU="WiKID Systems, Inc"
 
 # X509 Subject Field
 export KEY_NAME="EasyRSA"

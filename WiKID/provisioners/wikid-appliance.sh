@@ -8,5 +8,5 @@ sudo yum install -y java-1.6.0-openjdk postgresql postgresql-libs postgresql-jdb
 service postgresql initdb
 mkdir -p /opt/WiKID/conf
 echo "appliance" > /opt/WiKID/conf/mode.conf
-rpm -ivh --nodeps /root/rpms/wikid-*
+yum -y install --nogpg /root/rpms/wikid-*
 #mv /root/rpms/security /etc/security

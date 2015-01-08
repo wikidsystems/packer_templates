@@ -1,0 +1,1 @@
+These packer scripts build a [WiKID two-factor authentication server](https://www.wikidsystems.com) for Amazon EC2, Digital Ocean, VMWare or Virtualbox.  You can also add any additional services supported by packer.  If you always wanted to build your own cloud-based two-factor authentication service, now you can.  

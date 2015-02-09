@@ -1,0 +1,4 @@
+auth       sufficient   /lib64/security/pam_radius_auth.so debug
+account    sufficient    /lib64/security/pam_radius_auth.so
+
+

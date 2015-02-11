@@ -19,7 +19,7 @@
 {
   "type": "vmware-iso",
   "vm_name": "centos7-openvpn",
-  "iso_url": "/home/nowen/Downloads/CentOS-7.0-1406-x86_64-Minimal.iso",
+  "iso_url": "/home/nowen/Downloads/CentOS-6.5-x86_64-minimal.iso",
   "iso_checksum": "e3afe3f1121d69c40cc23f0bafa05e5d",
   "iso_checksum_type": "md5",
   "ssh_username": "root",
@@ -41,7 +41,7 @@
   "type": "virtualbox-iso",
   "vm_name": "centos7-openvpn-keys",
   "guest_os_type": "RedHat_64",
-  "iso_url": "/home/nowen/Downloads/CentOS-7.0-1406-x86_64-DVD/CentOS-7.0-1406-x86_64-DVD.iso",
+  "iso_url": "/home/nowen/Downloads/CentOS-6.5-x86_64-minimal.iso",
   "iso_checksum": "713ea7847adcdd1700e92429f212721a",
   "iso_checksum_type": "md5",
   "ssh_username": "root",

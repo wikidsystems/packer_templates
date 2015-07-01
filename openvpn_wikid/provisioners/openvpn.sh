@@ -60,5 +60,10 @@ cp /etc/openvpn/easy-rsa/keys/server.key /etc/openvpn
 service openvpn start
 chkconfig openvpn on
 
+# Disable IPv6 to stop DNS leakage on OpenVPN
+
+echo 'net.ipv6.conf.all.disable_ipv6 = 1' >> /etc/sysctl.conf
+echo 'net.ipv6.conf.default.disable_ipv6 = 1' >> /etc/sysctl.conf
+
 
 

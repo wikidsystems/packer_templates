@@ -12,7 +12,7 @@
     "source_ami": "ami-62af5f0a",
     "instance_type": "t1.micro",
     "ssh_username": "root",
-    "ami_name": "OpenVPN and WiKID 06.30.15 ",
+    "ami_name": "OpenVPN and WiKID 07.0.15 ",
     "ssh_timeout" : "5m",
     "ami_description": "Openvpn community on Centos with WiKID for two-factor auth."
   },

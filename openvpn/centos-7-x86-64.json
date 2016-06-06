@@ -9,12 +9,12 @@
     "access_key": "{{user `aws_access_key`}}",
     "secret_key": "{{user `aws_secret_key`}}",
     "region": "us-east-1",
-    "source_ami": "ami-62af5f0a",
+    "source_ami": "ami-c4caf2ae",
     "instance_type": "t1.micro",
     "ssh_username": "root",
     "ami_name": "OpenVPN and WiKID",
     "ssh_timeout" : "5m",
-    "ami_description": "Openvpn community on Centos with WiKID for two-factor auth."
+    "ami_description": "Openvpn community on Centos with WiKID Enterprise for two-factor auth."
   },
 {
   "type": "vmware-iso",

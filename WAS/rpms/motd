@@ -1,0 +1,16 @@
+                      / _)
+  __   __  _  _  ___  \ \
+ / / _ \ \| || |/ / |/ _ \
+| |_/ \_| | ||   <| ( (_) )
+ \___^___/ \_)_|\_\\_)___/
+
+
+##########################################
+## Thanks for your interest in WiKID    ##
+##     http://www.wikidsystems.com      ##
+##########################################
+
+The WiKID Enterprse rpms are installed on this image.  Run 'wikidctl setup' to get started. Note that you can say 'n' when asked to configure the network and for replication.  
+
+See the manual for the next steps:
+https://www.wikidsystems.com/support/manual/how-to-install-the-wikid-strong-authentication-server-enterprise-edition/

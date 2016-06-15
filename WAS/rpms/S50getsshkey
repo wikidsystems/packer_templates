@@ -1,0 +1,54 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:          getsshkey
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      
+# Short-Description: Install EC2 instance public keys
+# Description:       Query the EC2 metadata server for trusted SSH keys and write them to home/ec2-user's authorized_keys file
+#
+### END INIT INFO
+
+start() {
+  if [ ! -d /home/ec2-user/.ssh ] ; then
+    mkdir -p /home/ec2-user/.ssh
+    chmod 700 /home/ec2-user/.ssh
+  fi
+
+  touch /home/ec2-user/.ssh/authorized_keys
+  chmod 600 /home/ec2-user/.ssh/authorized_keys
+
+  echo -n "Fetching list of trusted keys from metadata server..."
+  key_list=`curl -s -L -f http://169.254.169.254/2009-04-04/meta-data/public-keys/`
+  code=$?
+  while [ $code -ne 0 ]; do
+    key_list=`curl -s -L -f http://169.254.169.254/latest/meta-data/public-keys/`
+    code=$?
+    if [ $code -ne 0 ]; then sleep 1; fi
+  done
+  echo "done"
+
+  # Parse each key's name and fetch it
+  while read -r LINE; do
+    # split line on '='
+    equal_index=`expr index "$LINE" "="`
+    key_index=${LINE:0:$equal_index-1}
+    key_name=${LINE:$equal_index}
+
+    # append to auth keys
+    append_to_auth_keys "$key_index" "$key_name"
+
+  done <<< $key_list
+}
+
+append_to_auth_keys() {
+  key_index=$1
+  key_name=$2
+
+  echo -n "Fetching public key '$key_name' from metadata server..."
+  code=`curl -s -L -w '%{http_code}' -o "/home/ec2-user/.ssh/${key_name}.pub" "http://169.254.169.254/2009-04-04/meta-data/public-keys/${key_index}/openssh-key"`
+  while [ $code -ge 500 ]; do
+                                                                                                                                                                            1,3           Top
+

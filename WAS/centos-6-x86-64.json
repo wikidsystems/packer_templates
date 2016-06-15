@@ -1,0 +1,92 @@
+{
+ "variables": {
+    "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
+    "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
+    "aws_region": "us-east-1",
+    "vpc_id": ""
+   },
+  "builders":[
+  {
+   "type": "amazon-ebs",
+   "ssh_pty": "true",
+   "access_key": "{{user `aws_access_key`}}",
+   "secret_key": "{{user `aws_secret_key`}}",
+   "region": "{{user `aws_region`}}",
+   "vpc_id": "{{user `vpc_id`}}",
+    "region": "us-east-1",
+    "source_ami": "ami-8ec73be3", 
+    "instance_type": "t2.small",
+    "subnet_id": "subnet-c59eb883",
+    "security_group_ids": "sg-f699238d",
+    "ssh_username": "centos",
+    "ami_name": "WiKID Two-Factor Auth Server 4.1.0-b1995-12",
+    "ssh_timeout" : "5m",
+    "ami_description": "WiKID Strong Auth Server - Enterprise."
+  },
+{
+  "type": "vmware-iso",
+  "vm_name": "WAS on Centos 6",
+  "iso_url": "/home/nowen/Downloads/CentOS-6.4-x86_64-bin-DVD1.iso",
+  "iso_checksum": "0128cfc7c86072b13ee80dd013e0e5d7",
+  "iso_checksum_type": "md5",
+  "ssh_username": "root",
+  "ssh_password": "wikid",
+  "ssh_wait_timeout": "10m",
+  "guest_os_type": "centos-64",
+  "tools_upload_flavor": "linux",
+  "http_directory": "http",
+  "shutdown_command": "shutdown -P now",
+  "boot_command": [
+                "<esc>",
+                "<wait>linux ks=http://192.168.205.1:{{ .HTTPPort }}/anaconda-ks.cfg<enter>"
+            ],
+  "boot_wait": "25s",
+  "disk_size": 40000,
+  "headless": true
+},
+  {
+  "type": "virtualbox-iso",
+  "ssh_pty": "true",
+  "vm_name": "WiKID-2-Factor auth server on Centos 6",
+  "guest_os_type": "RedHat_64",
+  "iso_url": "/home/nowen/Downloads/CentOS-6.4-x86_64-bin-DVD1.iso",
+  "iso_checksum": "0128cfc7c86072b13ee80dd013e0e5d7",
+  "iso_checksum_type": "md5",
+  "ssh_username": "root",
+  "ssh_password": "wikid",
+  "ssh_wait_timeout": "20m",
+  "shutdown_command": "echo 'packer' | sudo -S shutdown -P now",
+  "boot_command": [
+                "<esc>",
+                "<wait>linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/anaconda-ks.cfg<enter>"
+            ],
+  "boot_wait": "5s",
+  "disk_size": 40000,
+  "headless": false,
+  "http_directory": "./http"
+   }
+ ],
+
+  "provisioners": [
+     { 
+     "type": "file",
+     "source": "rpms",
+     "destination": "/home/centos/"
+     },
+     {
+     "script":  "provisioners/wikid-appliance.sh",
+     "type": "shell"
+     },
+     {
+     "script":  "provisioners/iptables_off.sh",
+     "type": "shell",
+     "only": ["amazon-ebs"]
+     },
+     {
+     "script":  "provisioners/sshd_config.sh",
+     "type": "shell",
+     "only": ["amazon-ebs"]
+     }
+
+    ]
+}
